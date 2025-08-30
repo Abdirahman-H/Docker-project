@@ -14,3 +14,12 @@ This project is a **Flask web application** with a **PostgreSQL database**, cont
 ---
 
 ## 📂 Project Structure
+
+flask-postgres-app/
+│── backend/
+│ ├── app.py # Flask app with routes
+│ ├── requirements.txt # Python dependencies
+│ ├── Dockerfile # Backend Dockerfile
+│ ├── templates/ # HTML templates
+│ ├── static/ # CSS files
+│── docker-compose.yml # Local dev setup
