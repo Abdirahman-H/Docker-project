@@ -10,6 +10,7 @@ services:
       DB_NAME: flaskdb
       DB_USER: flaskuser
       DB_PASSWORD: flaskpass
+      DB_PORT: 5432
     depends_on:
       - db
 
@@ -23,7 +24,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
 volumes:
   pgdata:

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Postgres App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Flask Postgres App!</h1>
+        <p>You can add new items to the database and view existing ones.</p>
+
+        <h2>Add New Item</h2>
+        <form id="addItemForm">
+            <input type="text" id="itemName" placeholder="Item Name" required>
+            <button type="submit">Add Item</button>
+        </form>
+
+        <h2>Items</h2>
+        <ul id="itemsList">
+            <!-- Items will be loaded here by JavaScript -->
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchItems();
+
+            document.getElementById('addItemForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const itemName = document.getElementById('itemName').value;
+                await addItem(itemName);
+                document.getElementById('itemName').value = '';
+                fetchItems();
+            });
+        });
+
+        async function fetchItems() {
+            const response = await fetch('/items');
+            const items = await response.json();
+            const itemsList = document.getElementById('itemsList');
+            itemsList.innerHTML = '';
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `ID: ${item[0]}, Name: ${item[1]}`;
+                itemsList.appendChild(li);
+            });
+        }
+
+        async function addItem(name) {
+            await fetch('/items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: name }),
+            });
+        }
+    </script>
+</body>
+</html>
